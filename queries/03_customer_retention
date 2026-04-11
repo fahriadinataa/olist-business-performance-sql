@@ -139,16 +139,39 @@ SELECT
     c.segment,
     ROUND(AVG(DATEDIFF(f.delivered_date, f.purchase_date)), 2) AS avg_lead_time,
     MAX(DATEDIFF(f.delivered_date, f.purchase_date)) AS max_lead_time,
-    ROUND(AVG(DATEDIFF(f.estimated_date, f.delivered_date)), 2) AS avg_late_time,
-    MIN(DATEDIFF(f.estimated_date, f.delivered_date)) AS max_late_time,
-    ROUND(SUM(CASE WHEN DATEDIFF(f.estimated_date, f.delivered_date) < 0 THEN 1 ELSE 0 END) * 100.0 /
+    MAX(DATEDIFF(f.delivered_date, f.estimated_date)) AS max_late_time,
+	ROUND(COUNT(DISTINCT CASE WHEN DATEDIFF(f.delivered_date, f.estimated_date) > 0 THEN order_id END) * 100.0 /
     COUNT(DISTINCT f.order_id), 2) AS late_time_rate,
-	SUM(CASE WHEN DATEDIFF(f.estimated_date, f.delivered_date) < 0 THEN 1 ELSE 0 END) AS total_late_delivery,
-    SUM(CASE WHEN DATEDIFF(f.estimated_date, f.delivered_date) < -10 THEN 1 ELSE 0 END) AS late_delivery_10days_up
+    COUNT(DISTINCT CASE WHEN DATEDIFF(f.delivered_date, f.estimated_date) > 0 THEN order_id END) AS total_late_delivery,
+    COUNT(DISTINCT CASE WHEN DATEDIFF(f.delivered_date, f.estimated_date) > 10 THEN order_id END) AS late_delivery_10days_up
 FROM new_fact_order f
 JOIN customer_segment c ON f.customer_unique_id = c.customer_unique_id
 WHERE delivered_date IS NOT NULL
 GROUP BY c.segment;
+
+
+-- Category Preference by Retention Segment
+-- Compare the product categories purchased by churned customers with those purchased by repeat customers
+WITH product_by_segment AS(
+SELECT 
+	c.segment,
+    p.product_category_name AS category_name,
+    COUNT(DISTINCT order_id) AS total_order,
+    ROW_NUMBER() OVER(PARTITION BY c.segment ORDER BY COUNT(DISTINCT order_id) DESC) AS rank_total_order
+FROM new_fact_order o
+LEFT JOIN customer_segment c ON o.customer_unique_id = c.customer_unique_id
+LEFT JOIN st_dim_product p ON o.product_id = p.product_id
+GROUP BY segment, category_name
+ORDER BY segment, rank_total_order ASC
+)
+
+SELECT 
+	segment,
+    category_name,
+    total_order
+FROM product_by_segment
+WHERE rank_total_order <= 5
+	AND segment != 'one-time customer';
 
 
 
