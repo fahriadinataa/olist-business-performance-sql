@@ -1,0 +1,89 @@
+SELECT COUNT(DISTINCT seller_id) AS total_seller
+FROM new_fact_order;
+-- Total Seller in Olist Marketplace 3053
+
+
+-- Analysis of the top 10 sellers based on their GMV contribution to the total
+DROP TEMPORARY TABLE IF EXISTS seller_summary;
+
+CREATE TEMPORARY TABLE seller_summary
+SELECT 
+	s.seller_id,
+    s.seller_city,
+    s.seller_state,
+    COUNT(DISTINCT o.order_id) AS total_order,
+    COUNT(DISTINCT o.customer_unique_id) AS total_customer,
+    COUNT(DISTINCT o.product_id) AS total_product,
+    SUM(o.qty_sold) AS total_qty_sold,
+    ROUND(SUM(o.total_payment), 2) AS total_gmv,
+    ROUND(SUM(o.total_payment) * 100.0 / SUM(SUM(o.total_payment)) OVER(), 2) AS gmv_contribution
+FROM new_fact_order o
+LEFT JOIN st_dim_seller s ON o.seller_id = s.seller_id
+GROUP BY s.seller_id, s.seller_city, s.seller_state
+ORDER BY gmv_contribution DESC;
+
+SELECT *
+FROM seller_summary
+ORDER BY total_gmv DESC;
+
+
+-- Top 10 of Sellers With The Most Repeat Orders 
+SELECT 
+	seller_id,
+    total_order - total_customer AS repeat_order
+FROM seller_summary
+ORDER BY repeat_order DESC
+LIMIT 10;
+
+
+-- Distribution of review scores among sellers 
+-- Segmentation of sellers based on average review scores and total orders
+SELECT 
+	o.seller_id,
+    AVG(r.review_score) AS avg_review_score,
+    COUNT(DISTINCT o.order_id) AS total_order,
+    COUNT(DISTINCT o.customer_unique_id) AS total_customer,
+    CASE
+		WHEN AVG(r.review_score) > 4.0 AND COUNT(DISTINCT o.order_id) > 500 THEN 'top seller'
+        WHEN AVG(r.review_score) > 4.0 AND COUNT(DISTINCT o.order_id) < 500 
+        AND COUNT(DISTINCT o.order_id) > 100 THEN 'potential seller'
+        WHEN AVG(r.review_score) < 4.0 AND COUNT(DISTINCT o.order_id) > 500 THEN 'risky seller'
+        ELSE 'underperformed'
+        END AS segment
+FROM new_fact_order o
+LEFT JOIN st_dim_review r ON o.order_id = r.order_id
+GROUP BY o.seller_id
+ORDER BY total_order DESC;
+
+
+-- Late Order Rate by Seller Segment
+WITH seller_stats AS(
+SELECT 
+	seller_id,
+	COUNT(DISTINCT order_id) AS total_order,
+	COUNT(DISTINCT CASE 
+		WHEN delivered_date IS NOT NULL 
+			AND DATEDIFF(delivered_date, estimated_date) > 0 
+			THEN order_id 
+		END) AS total_late_order,
+	MAX(CASE 
+		WHEN delivered_date IS NOT NULL 
+			THEN DATEDIFF(delivered_date, estimated_date) 
+		END) AS max_late_time
+FROM new_fact_order
+GROUP BY seller_id
+ORDER BY total_late_order DESC
+)
+
+SELECT 
+    s.seller_id,
+    p.segment,
+    s.total_order,
+    s.total_late_order,
+    ROUND(s.total_late_order * 100.0 / s.total_order, 2) AS late_time_rate,
+    s.max_late_time
+FROM seller_stats s
+JOIN segment_performance p ON s.seller_id = p.seller_id
+WHERE s.total_order > 100
+ORDER BY late_time_rate DESC;
+
