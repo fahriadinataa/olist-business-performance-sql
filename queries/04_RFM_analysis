@@ -1,0 +1,55 @@
+-- RFM Analysis
+WITH RFM_value AS(
+SELECT 
+	customer_unique_id,
+    DATEDIFF((SELECT MAX(purchase_date) FROM order_valid_summary), 
+    MAX(purchase_date)) AS recency_days, 		-- Determine how recently customers placed orders
+	COUNT(DISTINCT order_id) AS frequency,		-- How many orders customers placed 
+    ROUND(SUM(total_payment), 2) AS monetary	-- How much money was spent
+FROM new_fact_order
+GROUP BY customer_unique_id
+),
+
+RFM_score AS(
+SELECT 
+	customer_unique_id,
+    recency_days,
+    frequency,
+    monetary,
+    NTILE(5) OVER(ORDER BY recency_days DESC) AS r_score,	-- Give the highest score to customers who have placed an order most recently,
+    NTILE(5) OVER(ORDER BY frequency ASC) AS f_score,		-- place orders most frequently,
+    NTILE(5) OVER(ORDER BY monetary ASC) AS m_score			-- and spend the most money
+FROM RFM_value
+),
+
+-- Give segmentation based on combinations of values using the RFM table
+RFM_segmentation AS(
+SELECT 
+	*,
+	r_score + f_score + m_score AS total_score,
+	CASE
+		WHEN r_score = 5 AND f_score >= 4 THEN 'champions'
+		WHEN r_score IN (3, 4) AND f_score IN (4, 5) THEN 'loyal customer'
+		WHEN r_score >= 4 AND f_score IN (2, 3) THEN 'potential loyalist'
+		WHEN r_score = 5 AND f_score = 1 THEN 'new customer'
+		WHEN r_score = 4 AND f_score = 1 THEN 'promising'
+		WHEN r_score = 3 AND f_score = 3 THEN 'need attention'
+		WHEN r_score = 3 AND f_score <= 2 THEN 'about to sleep'
+		WHEN r_score <=2 AND f_score = 5 THEN 'cannot loose them'
+		WHEN r_score <=2 AND f_score IN (3, 4) THEN 'hibernating'
+		WHEN r_score <= 2 AND f_score <= 2 THEN 'lost'
+        ELSE 'other'
+		END AS segmentation
+FROM RFM_score
+ORDER BY total_score DESC
+)
+
+-- Summary of RFM Analysis
+SELECT 
+	segmentation,
+	COUNT(customer_unique_id) AS total_customer,
+    ROUND(COUNT(customer_unique_id) * 100.0 / SUM(COUNT(customer_unique_id)) OVER(), 2) AS segmentation_rate
+FROM RFM_segmentation
+GROUP BY segmentation
+ORDER BY total_customer DESC;
+
