@@ -5,6 +5,7 @@ SELECT
 	DATEDIFF(MAX(order_purchase_timestamp), MIN(order_purchase_timestamp)) + 1 AS count_days -- the number of days between the start date and the end date
 FROM st_dim_order;
 
+
 -- Create Dim Date Table
 DROP TABLE IF EXISTS st_dim_date;
 
@@ -204,6 +205,7 @@ LEFT JOIN new_fact_order o ON d.fulldate = o.purchase_date
 GROUP BY d.yearmonth
 ORDER BY d.yearmonth;
 
+
 -- Yearly Trend Analysis
 SELECT 
 	d.`year`,
@@ -227,6 +229,7 @@ LEFT JOIN new_fact_order o ON d.fulldate = o.purchase_date
 GROUP BY d.`year`
 ORDER BY d.`year`;
 
+
 -- Monthly Seasonality
 SELECT 
 	d.`month`,
@@ -242,6 +245,7 @@ FROM st_dim_date d
 LEFT JOIN new_fact_order o ON d.fulldate = o.purchase_date
 GROUP BY d.`month`
 ORDER BY d.`month`;
+
 
 -- Day of Week Pattern
 SELECT 
@@ -267,6 +271,7 @@ ORDER BY FIELD(d.dayname,
     'Sunday'
 );
 
+
 -- Cumulative Metric Analysis
 WITH running_metric AS
 (
@@ -288,6 +293,7 @@ SELECT
 	ROUND(SUM(total_gmv) OVER(ORDER BY yearmonth), 2) AS cumulative_gmv
 FROM running_metric
 GROUP BY yearmonth;
+
 
 -- MoM Analysis
 SELECT 
@@ -312,6 +318,7 @@ FROM st_dim_date d
 LEFT JOIN new_fact_order o ON d.fulldate = o.purchase_date
 GROUP BY d.yearmonth;
 
+
 -- YoY Analysis
 SELECT 
 	DISTINCT d.yearmonth,
@@ -334,6 +341,7 @@ SELECT
 FROM st_dim_date d
 LEFT JOIN new_fact_order o ON d.fulldate = o.purchase_date
 GROUP BY d.yearmonth;
+
 
 -- Moving Average 7 & Moving Average 30
 WITH MA AS
