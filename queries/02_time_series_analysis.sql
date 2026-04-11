@@ -2,7 +2,7 @@
 SELECT 
 	MIN(order_purchase_timestamp) AS start_date,
 	MAX(order_purchase_timestamp) AS end_date,
-	DATEDIFF(MAX(order_purchase_timestamp), MIN(order_purchase_timestamp)) + 1 AS count_days -- the number of days between the start date and the end date
+	DATEDIFF(MAX(order_purchase_timestamp), MIN(order_purchase_timestamp)) AS count_days -- the number of days between the start date and the end date
 FROM st_dim_order;
 
 
