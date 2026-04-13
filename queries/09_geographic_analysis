@@ -17,34 +17,23 @@ ORDER BY customer_unique_id
 SELECT 
 	customer_state,
     customer_city,
-    COUNT(DISTINCT customer_unique_id) AS total_customer
+    SUM(total_order) AS total_order
 FROM customer_summary
 GROUP BY customer_state, customer_city
-ORDER BY total_customer DESC;
---
+ORDER BY total_order DESC;
+
 
 -- Seller Geographic Analysis
 -- Seller by State and City
-WITH seller_distribution AS(
 SELECT 
 	s.seller_state,
     s.seller_city,
-    COUNT(DISTINCT s.seller_id) AS total_seller
+    COUNT(DISTINCT s.seller_id) AS total_seller,
+    ROUND(SUM(total_payment), 2) AS total_gmv
 FROM new_fact_order o
 LEFT JOIN st_dim_seller s ON o.seller_id = s.seller_id
 GROUP BY s.seller_state, s.seller_city
-)
-
-SELECT 
-	seller_state,
-    seller_city,
-    total_seller
-FROM seller_distribution
 ORDER BY total_seller DESC;
---
-
-
-
 
 
 
