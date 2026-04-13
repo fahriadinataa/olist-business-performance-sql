@@ -54,7 +54,7 @@ GROUP BY category_name
 ORDER BY avg_price DESC;
 
 
--- Category Product by Lowest Review Score (min. 500 orders)
+-- Top 10 Category-Seller Combinations with Lowest Review Score (min. 500 orders)
 SELECT 
 	p.category_name,
     p.seller_id,
