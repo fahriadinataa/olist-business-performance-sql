@@ -1,1 +1,143 @@
-yuhu
+-- KPI (total gmv, total order, total customer) compared with same mont in previous year / YoY analysis
+SELECT 
+	d.yearmonth,
+  ROUND(SUM(o.total_payment), 2) AS total_gmv,          
+  ROUND((SUM(o.total_payment) - 
+		LAG(SUM(o.total_payment), 12) OVER(ORDER BY d.yearmonth)) * 100.0 / LAG(SUM(o.total_payment), 12) 
+			OVER(ORDER BY d.yearmonth), 2) AS YoY_gmv 
+	COUNT(DISTINCT o.order_id) AS total_order,
+	ROUND((COUNT(DISTINCT o.order_id) - 
+		LAG(COUNT(DISTINCT o.order_id), 12) OVER(ORDER BY d.yearmonth)) * 100.0 / LAG(COUNT(DISTINCT o.order_id), 12) 
+			OVER(ORDER BY d.yearmonth), 2) AS YoY_order,
+	ROUND(SUM(o.qty_sold), 2) AS total_qty_sold,
+	ROUND((SUM(o.qty_sold) - 
+		LAG(SUM(o.qty_sold), 12) OVER(ORDER BY d.yearmonth)) * 100.0 / LAG(SUM(o.qty_sold), 12) 
+			OVER(ORDER BY d.yearmonth), 2) AS YoY_qty_sold   
+FROM st_dim_date d
+LEFT JOIN new_fact_order o ON d.fulldate = o.purchase_date
+GROUP BY d.yearmonth;
+--
+
+-- Order Success Rate
+WITH order_status_rate AS(
+SELECT 
+	order_status,
+  COUNT(order_id) AS total_order,
+    ROUND(COUNT(order_id) * 100.0 / SUM(COUNT(order_id)) OVER(), 2) AS rate_order
+FROM st_dim_order
+GROUP BY order_status
+ORDER BY FIELD(order_status, 
+	'created', 
+  'approved', 
+  'invoiced', 
+  'processing', 
+  'shipped', 
+  'delivered', 
+  'canceled', 
+  'unavailable'
+))
+
+SELECT *
+FROM order_status_rate
+WHERE order_status = 'delivered';
+--
+
+-- Growth GMV Combined with Moving Average 7 and 30
+WITH MA AS
+(
+	SELECT d.fulldate,
+	COALESCE(ROUND(SUM(o.total_payment), 2), 0) AS total_gmv
+	FROM st_dim_date d
+	LEFT JOIN new_fact_order o ON d.fulldate = o.purchase_date
+	GROUP BY d.fulldate
+)
+SELECT fulldate,
+total_gmv,
+ROUND(AVG(total_gmv) OVER(ORDER BY fulldate ROWS BETWEEN 6 PRECEDING AND CURRENT ROW), 2) AS MA7,
+ROUND(AVG(total_gmv) OVER(ORDER BY fulldate ROWS BETWEEN 29 PRECEDING AND CURRENT ROW), 2) AS MA30
+FROM MA;
+--
+
+
+-- Retention Segment Distribution
+SELECT
+	segment,
+  COUNT(DISTINCT customer_unique_id) AS total_customer,
+  ROUND(COUNT(DISTINCT customer_unique_id) * 100.0 / SUM(COUNT(*)) OVER(), 2) AS total_customer_rate
+FROM customer_segment
+GROUP BY segment;
+--
+
+-- Payment Type Distribution
+SELECT 
+	payment_type,
+	COUNT(DISTINCT order_id) AS total_order,
+  ROUND(COUNT(DISTINCT order_id) * 100.0 / 
+    SUM(COUNT(DISTINCT order_id)) OVER(), 2) AS total_order_rate
+FROM new_fact_order
+WHERE payment_type IS NOT NULL
+GROUP BY payment_type
+ORDER BY total_order DESC;
+--
+
+-- Overall AOV
+SELECT
+	ROUND(SUM(total_payment) / COUNT(DISTINCT order_id), 2) AS AOV
+FROM new_fact_order;
+--
+
+-- Top 5 Category by GMV
+SELECT 
+    category_name,
+    ROUND(AVG(price), 2) AS avg_price,
+    ROUND(SUM(total_gmv), 2) AS gmv_value
+FROM product_summary 
+GROUP BY category_name
+ORDER BY gmv_value DESC
+LIMIT 5;
+--
+
+-- Geographic Top 5 State by Order
+WITH customer_summary AS(
+SELECT 
+	o.customer_unique_id,
+  c.customer_city,
+  c.customer_state,
+  COUNT(DISTINCT o.order_id) AS total_order,
+  SUM(o.qty_sold) AS total_qty_sold,
+  SUM(o.total_payment) AS total_gmv
+FROM new_fact_order o
+LEFT JOIN st_dim_customer c ON o.customer_unique_id = c.customer_unique_id
+GROUP BY o.customer_unique_id, c.customer_city, c.customer_state
+ORDER BY customer_unique_id
+)
+
+SELECT 
+	customer_state,
+  SUM(total_order) AS total_order
+FROM customer_summary
+GROUP BY customer_state
+ORDER BY total_order DESC
+LIMIT 5;
+--
+
+-- Order Status Breakdown
+SELECT 
+	order_status,
+  COUNT(order_id) AS total_order,
+  ROUND(COUNT(order_id) * 100.0 / SUM(COUNT(order_id)) OVER(), 2) AS rate_order
+FROM st_dim_order
+GROUP BY order_status
+ORDER BY FIELD(order_status, 
+	'created', 
+  'approved', 
+  'invoiced', 
+  'processing', 
+  'shipped', 
+  'delivered', 
+  'canceled', 
+  'unavailable'
+);
+--
+
+
