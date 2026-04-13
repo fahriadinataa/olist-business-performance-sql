@@ -86,18 +86,7 @@ After ruling out delivery performance, review scores, and product category as pr
 All recommendations are designed to improve customer retention so the business is less dependent on constantly acquiring new buyers.
 
 ## 7. Project Structure
-olist-business-performance-sql
-├── README.md
-└── queries/
-├── 01_business_overview.sql
-├── 02_time_series_analysis.sql
-├── 03_customer_retention.sql
-├── 04_RFM_analysis.sql
-├── 05_customers_payment.sql
-├── 06_seller_performance.sql
-├── 07_delivery_operation.sql
-├── 08_product_analysis.sql
-└── 09_geographic_analysis.sql
+<img width="262" height="336" alt="Screen Shot 2026-04-13 at 16 20 53" src="https://github.com/user-attachments/assets/a56478e4-8435-4136-a180-f4cf3b39beac" />
 
 ## 8. Limitations & Next Steps
 - The dataset only covers 2016–2018 and cannot capture more recent trends.  
