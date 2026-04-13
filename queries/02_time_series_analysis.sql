@@ -4,7 +4,7 @@ SELECT
 	MAX(order_purchase_timestamp) AS end_date,
 	DATEDIFF(MAX(order_purchase_timestamp), MIN(order_purchase_timestamp)) AS count_days -- the number of days between the start date and the end date
 FROM st_dim_order;
-
+--
 
 -- Create Dim Date Table
 DROP TABLE IF EXISTS st_dim_date;
@@ -49,10 +49,10 @@ FROM date_series;
 
 SELECT * 
 FROM st_dim_date;
-
+--
 
 -- Merge 4 table (fact_payment, fact_item, dim_order, dim_customer) as new fact table.
--- I created a table containing all the IDs, calculations, and dates to make it easier to create relationships with other dim tables.
+-- Created a table containing all the IDs, calculations, and dates to make it easier to create relationships with other dim tables.
 DROP TEMPORARY TABLE IF EXISTS payment_summary;
 
 CREATE TEMPORARY TABLE payment_summary
@@ -101,7 +101,7 @@ WHERE order_status NOT IN ('canceled', 'unavailable');
     
 SELECT *
 FROM order_valid;
--- I removed the rows with order status canceled and unavailable.
+-- Removed the rows with order status canceled and unavailable.
 -- So the result is only successful orders and orders that are still in progress. (98207)
 
 DROP TEMPORARY TABLE IF EXISTS order_valid_summary;
@@ -126,8 +126,8 @@ FROM item_summary i
 LEFT JOIN order_valid o ON i.order_id = o.order_id
 LEFT JOIN payment_summary p ON i.order_id = p.order_id
 WHERE o.order_status IS NOT NULL;
--- LEFT JOIN digunakan karena item_summary (left table) bisa mengandung order canceled/unavailable. 
--- WHERE IS NOT NULL berfungsi memfilter failed order (cancel, unavail) yang tidak lolos dari valid_order. (101953)
+-- LEFT JOIN is used because the item_summary table (the left table) may contain canceled or unavailable orders.
+-- WHERE IS NOT NULL clause filters out failed orders (canceled or unavailable) that do not meet the criteria in valid_order. (101953)
 
 SELECT * 
 FROM order_valid_summary;
@@ -177,7 +177,7 @@ LEFT JOIN st_dim_customer c ON o.customer_id = c.customer_id;
 
 SELECT *
 FROM new_fact_order;
--- The new fact table is now complete and ready to use.
+-- The new fact table completed and ready to use.
 -- Each row in this table represents one order from one customer who purchased one product from one seller.
 -- Duplicates occur because a single order may include different products or different sellers.
 
@@ -204,7 +204,7 @@ FROM st_dim_date d
 LEFT JOIN new_fact_order o ON d.fulldate = o.purchase_date
 GROUP BY d.yearmonth
 ORDER BY d.yearmonth;
-
+--
 
 -- Yearly Trend Analysis
 SELECT 
@@ -228,7 +228,7 @@ FROM st_dim_date d
 LEFT JOIN new_fact_order o ON d.fulldate = o.purchase_date
 GROUP BY d.`year`
 ORDER BY d.`year`;
-
+--
 
 -- Monthly Seasonality
 SELECT 
@@ -245,7 +245,7 @@ FROM st_dim_date d
 LEFT JOIN new_fact_order o ON d.fulldate = o.purchase_date
 GROUP BY d.`month`
 ORDER BY d.`month`;
-
+--
 
 -- Day of Week Pattern
 SELECT 
@@ -270,7 +270,7 @@ ORDER BY FIELD(d.dayname,
     'Saturday', 
     'Sunday'
 );
-
+--
 
 -- Cumulative Metric Analysis
 WITH running_metric AS
@@ -293,11 +293,11 @@ SELECT
 	ROUND(SUM(total_gmv) OVER(ORDER BY yearmonth), 2) AS cumulative_gmv
 FROM running_metric
 GROUP BY yearmonth;
-
+--
 
 -- MoM Analysis
 SELECT 
-	DISTINCT d.yearmonth,
+	d.yearmonth,
 	COUNT(DISTINCT o.order_id) AS total_order,
 	ROUND((COUNT(DISTINCT o.order_id) - 
 		LAG(COUNT(DISTINCT o.order_id)) OVER(ORDER BY d.yearmonth)) * 100.0 / LAG(COUNT(DISTINCT o.order_id)) 
@@ -317,11 +317,11 @@ SELECT
 FROM st_dim_date d
 LEFT JOIN new_fact_order o ON d.fulldate = o.purchase_date
 GROUP BY d.yearmonth;
-
+--
 
 -- YoY Analysis
 SELECT 
-	DISTINCT d.yearmonth,
+	d.yearmonth,
 	COUNT(DISTINCT o.order_id) AS total_order,
 	ROUND((COUNT(DISTINCT o.order_id) - 
 		LAG(COUNT(DISTINCT o.order_id), 12) OVER(ORDER BY d.yearmonth)) * 100.0 / LAG(COUNT(DISTINCT o.order_id), 12) 
@@ -341,7 +341,7 @@ SELECT
 FROM st_dim_date d
 LEFT JOIN new_fact_order o ON d.fulldate = o.purchase_date
 GROUP BY d.yearmonth;
-
+--
 
 -- Moving Average 7 & Moving Average 30
 WITH MA AS
