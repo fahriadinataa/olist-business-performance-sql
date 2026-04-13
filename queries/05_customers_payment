@@ -4,7 +4,7 @@ SELECT
 	COUNT(DISTINCT order_id) AS total_order,
     ROUND(COUNT(DISTINCT order_id) * 100.0 / 
     SUM(COUNT(DISTINCT order_id)) OVER(), 2) AS total_order_rate,
-    ROUND(SUM(total_payment) / COUNT(order_id), 2) AS AOV
+    ROUND(SUM(total_payment) / COUNT(DISTINCT order_id), 2) AS AOV
 FROM new_fact_order
 WHERE payment_type IS NOT NULL
 GROUP BY payment_type
