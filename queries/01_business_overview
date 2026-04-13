@@ -1,15 +1,15 @@
--- KPI (total gmv, total order, total customer) compared with same mont in previous year / YoY analysis
+-- KPI (total gmv, total order, total customer) compared with same month in previous year / YoY analysis
 SELECT 
 	d.yearmonth,
-  ROUND(SUM(o.total_payment), 2) AS total_gmv,          
-  ROUND((SUM(o.total_payment) - 
+	ROUND(SUM(o.total_payment), 2) AS total_gmv,          
+  	ROUND((SUM(o.total_payment) - 
 		LAG(SUM(o.total_payment), 12) OVER(ORDER BY d.yearmonth)) * 100.0 / LAG(SUM(o.total_payment), 12) 
-			OVER(ORDER BY d.yearmonth), 2) AS YoY_gmv 
+			OVER(ORDER BY d.yearmonth), 2) AS YoY_gmv,
 	COUNT(DISTINCT o.order_id) AS total_order,
 	ROUND((COUNT(DISTINCT o.order_id) - 
 		LAG(COUNT(DISTINCT o.order_id), 12) OVER(ORDER BY d.yearmonth)) * 100.0 / LAG(COUNT(DISTINCT o.order_id), 12) 
 			OVER(ORDER BY d.yearmonth), 2) AS YoY_order,
-	ROUND(SUM(o.qty_sold), 2) AS total_qty_sold,
+	SUM(o.qty_sold) AS total_qty_sold,
 	ROUND((SUM(o.qty_sold) - 
 		LAG(SUM(o.qty_sold), 12) OVER(ORDER BY d.yearmonth)) * 100.0 / LAG(SUM(o.qty_sold), 12) 
 			OVER(ORDER BY d.yearmonth), 2) AS YoY_qty_sold   
