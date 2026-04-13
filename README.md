@@ -86,7 +86,7 @@ After ruling out delivery performance, review scores, and product category as pr
 All recommendations are designed to improve customer retention so the business is less dependent on constantly acquiring new buyers.
 
 ## 7. Project Structure
-olist-business-performace-sql
+olist-business-performance-sql
 ├── README.md
 └── queries/
 ├── 01_business_overview.sql
