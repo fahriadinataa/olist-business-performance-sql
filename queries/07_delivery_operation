@@ -22,7 +22,7 @@ ORDER BY FIELD(order_status,
 SELECT *
 FROM order_status_rate
 WHERE order_status IN ('delivered', 'canceled', 'unavailable');
-
+--
 
 -- Overall Delivery Performance
 SELECT 
@@ -35,7 +35,7 @@ SELECT
 	COUNT(DISTINCT CASE WHEN delivered_date IS NOT NULL THEN order_id END), 2) AS late_order_rate
 FROM new_fact_order
 WHERE delivered_date IS NOT NULL;
-
+--
 
 -- Late Order Distribution by Time Segment
 WITH late_segment AS(
@@ -62,5 +62,10 @@ SELECT
 FROM late_segment
 GROUP BY late_segment
 ORDER BY total_order DESC;
+--
+
+
+
+
 
 
