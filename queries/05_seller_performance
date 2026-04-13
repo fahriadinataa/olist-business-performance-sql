@@ -38,6 +38,9 @@ LIMIT 10;
 
 -- Distribution of review scores among sellers 
 -- Segmentation of sellers based on average review scores and total orders
+DROP TEMPORARY TABLE IF EXISTS segment_performance;
+
+CREATE TEMPORARY TABLE segment_performance
 SELECT 
 	o.seller_id,
     AVG(r.review_score) AS avg_review_score,
