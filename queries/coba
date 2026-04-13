@@ -107,3 +107,7 @@ WHERE seller_city LIKE '%rao pre%';
 UPDATE st_dim_seller
 SET seller_city = 'sao miguel do oeste'
 WHERE seller_city LIKE '%sao miguel%';
+
+UPDATE st_dim_customer
+SET customer_city = "estrela d'oeste"
+WHERE customer_city = 'estrela d oeste';
