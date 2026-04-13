@@ -1,4 +1,5 @@
-SELECT COUNT(DISTINCT customer_unique_id) AS total_customer
+SELECT 
+	COUNT(DISTINCT customer_unique_id) AS total_customer
 FROM new_fact_order;
 -- Total valid customer is 94983
 
@@ -132,7 +133,7 @@ SELECT
     ROUND(SUM(total_gmv) * 100.0 / SUM(SUM(total_gmv)) OVER(), 2) AS gmv_contribution
 FROM customer_segment
 GROUP BY segment;
-
+--
 
 -- Delivery Performance Impact Analysis
 SELECT 
@@ -148,10 +149,10 @@ FROM new_fact_order f
 JOIN customer_segment c ON f.customer_unique_id = c.customer_unique_id
 WHERE delivered_date IS NOT NULL
 GROUP BY c.segment;
-
+--
 
 -- Category Preference by Retention Segment
--- Compare the product categories purchased by churned customers with those purchased by repeat customers
+-- Compare the product categories purchased by churned customers and repeat customers
 WITH product_by_segment AS(
 SELECT 
 	c.segment,
@@ -171,7 +172,8 @@ SELECT
     total_order
 FROM product_by_segment
 WHERE rank_total_order <= 5
-	AND segment != 'one-time customer';
+	AND segment IN ('churn customer' AND 'repeat customer');
+--
 
 
 
