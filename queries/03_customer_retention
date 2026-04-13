@@ -45,7 +45,7 @@ GROUP BY
 ORDER BY o.customer_unique_id;
 
 SELECT AVG(cohort_age) AS avg_repeat_order
-FROM cohort_analysis
+FROM cohort_base
 WHERE cohort_age != 0
 ORDER BY customer_unique_id;
 -- The average number of months until a customer places a repeat order is 4.8 month
