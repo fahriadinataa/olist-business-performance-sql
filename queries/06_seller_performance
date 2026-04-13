@@ -3,7 +3,7 @@ FROM new_fact_order;
 -- Total Seller in Olist Marketplace 3053
 
 
--- Analysis of the top 10 sellers based on their GMV contribution to the total
+-- Top 10 sellers based on their GMV contribution to the total
 DROP TEMPORARY TABLE IF EXISTS seller_summary;
 
 CREATE TEMPORARY TABLE seller_summary
@@ -24,8 +24,9 @@ ORDER BY gmv_contribution DESC;
 
 SELECT *
 FROM seller_summary
-ORDER BY total_gmv DESC;
-
+ORDER BY total_gmv DESC
+LIMIT 10;
+--
 
 -- Top 10 of Sellers With The Most Repeat Orders 
 SELECT 
@@ -34,7 +35,7 @@ SELECT
 FROM seller_summary
 ORDER BY repeat_order DESC
 LIMIT 10;
-
+--
 
 -- Distribution of review scores among sellers 
 -- Segmentation of sellers based on average review scores and total orders
@@ -57,7 +58,7 @@ FROM new_fact_order o
 LEFT JOIN st_dim_review r ON o.order_id = r.order_id
 GROUP BY o.seller_id
 ORDER BY total_order DESC;
-
+--
 
 -- Late Order Rate by Seller Segment
 WITH seller_stats AS(
@@ -89,4 +90,11 @@ FROM seller_stats s
 JOIN segment_performance p ON s.seller_id = p.seller_id
 WHERE s.total_order > 100
 ORDER BY late_time_rate DESC;
+--
+
+
+
+
+
+
 
