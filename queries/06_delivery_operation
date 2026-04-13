@@ -33,7 +33,8 @@ SELECT
     COUNT(DISTINCT CASE WHEN DATEDIFF(delivered_date, estimated_date) > 0 THEN order_id END) AS total_late_order,
     ROUND(COUNT(DISTINCT CASE WHEN DATEDIFF(delivered_date, estimated_date) > 0 THEN order_id END) * 100.0 /
 	COUNT(DISTINCT CASE WHEN delivered_date IS NOT NULL THEN order_id END), 2) AS late_order_rate
-FROM new_fact_order;
+FROM new_fact_order
+WHERE delivered_date IS NOT NULL;
 
 
 -- Late Order Distribution by Time Segment
