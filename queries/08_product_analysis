@@ -82,3 +82,8 @@ HAVING total_order > 500
 ORDER BY avg_review_score
 LIMIT 10;
 --
+
+
+
+
+
