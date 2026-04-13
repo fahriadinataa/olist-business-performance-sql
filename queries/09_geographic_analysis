@@ -21,7 +21,7 @@ SELECT
 FROM customer_summary
 GROUP BY customer_state, customer_city
 ORDER BY total_customer DESC;
-
+--
 
 -- Seller Geographic Analysis
 -- Seller by State and City
@@ -41,3 +41,10 @@ SELECT
     total_seller
 FROM seller_distribution
 ORDER BY total_seller DESC;
+--
+
+
+
+
+
+
