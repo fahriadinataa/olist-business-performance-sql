@@ -1,0 +1,49 @@
+-- Distribution Payment Type
+SELECT 
+	payment_type,
+	COUNT(DISTINCT order_id) AS total_order,
+    ROUND(COUNT(DISTINCT order_id) * 100.0 / 
+    SUM(COUNT(DISTINCT order_id)) OVER(), 2) AS total_order_rate,
+    ROUND(SUM(total_payment) / COUNT(order_id), 2) AS AOV
+FROM new_fact_order
+WHERE payment_type IS NOT NULL
+GROUP BY payment_type
+ORDER BY total_order DESC;
+--
+
+-- Installment Analysis
+SELECT 
+	installment,
+    COUNT(DISTINCT order_id) AS total_order,
+    ROUND(SUM(total_payment), 2) AS total_gmv,
+    ROUND(SUM(total_payment) / COUNT(DISTINCT order_id), 2) AS AOV
+FROM new_fact_order
+WHERE installment IS NOT NULL
+GROUP BY installment
+ORDER BY AOV DESC;
+--
+
+-- Overall AOV
+SELECT
+	ROUND(SUM(total_payment) / COUNT(DISTINCT order_id), 2) AS AOV
+FROM new_fact_order;
+
+-- Payment Type by Retention Segment
+SELECT
+	segment,
+    payment_type,
+    total_order
+FROM
+	(SELECT
+	c.segment,
+    f.payment_type,
+    COUNT(DISTINCT f.order_id) AS total_order,
+    ROW_NUMBER() OVER(PARTITION BY c.segment 
+		ORDER BY COUNT(DISTINCT f.order_id) DESC) AS rank_total_order
+FROM new_fact_order f
+JOIN customer_segment c ON f.customer_unique_id = c.customer_unique_id
+WHERE f.payment_type IS NOT NULL
+GROUP BY segment, payment_type
+) s
+WHERE rank_total_order = 1;
+--
