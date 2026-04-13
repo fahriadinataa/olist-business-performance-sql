@@ -1,4 +1,3 @@
--- RFM Analysis
 WITH RFM_value AS(
 SELECT 
 	customer_unique_id,
@@ -35,7 +34,7 @@ SELECT
 		WHEN r_score = 4 AND f_score = 1 THEN 'promising'
 		WHEN r_score = 3 AND f_score = 3 THEN 'need attention'
 		WHEN r_score = 3 AND f_score <= 2 THEN 'about to sleep'
-		WHEN r_score <=2 AND f_score = 5 THEN 'cannot loose them'
+		WHEN r_score <=2 AND f_score = 5 THEN 'cannot lose them'
 		WHEN r_score <=2 AND f_score IN (3, 4) THEN 'hibernating'
 		WHEN r_score <= 2 AND f_score <= 2 THEN 'lost'
         ELSE 'other'
@@ -44,12 +43,18 @@ FROM RFM_score
 ORDER BY total_score DESC
 )
 
--- Summary of RFM Analysis
+-- Summary RFM Analysis
 SELECT 
 	segmentation,
 	COUNT(customer_unique_id) AS total_customer,
-    ROUND(COUNT(customer_unique_id) * 100.0 / SUM(COUNT(customer_unique_id)) OVER(), 2) AS segmentation_rate
+    ROUND(COUNT(customer_unique_id) * 100.0 / SUM(COUNT(customer_unique_id)) OVER(), 2) AS segmentation_rate,
+    ROUND(AVG(frequency), 2) AS avg_frequency,
+    ROUND(AVG(monetary), 2) AS avg_monetary
 FROM RFM_segmentation
 GROUP BY segmentation
 ORDER BY total_customer DESC;
+--
+
+
+
 
