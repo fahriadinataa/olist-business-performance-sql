@@ -50,7 +50,7 @@ The 5-month threshold was determined from cohort analysis, which showed that cus
 ## 5. Key Findings
 
 **Finding 1**  
-Olist experienced strong growth in the early period, which gradually slowed over time. YoY GMV growth ranged from **50% to 700%**. Overall, 97% of orders were successfully delivered, with only about 1.2% of orders failing.
+Olist experienced strong growth in the early period, which gradually slowed over time. YoY GMV growth ranged from **50% to 700%**. Overall, 97% of orders were successfully delivered, with only about 1.2% of orders failed.
 
 **Finding 2**  
 Growth was driven almost entirely by new customers rather than retention.  
