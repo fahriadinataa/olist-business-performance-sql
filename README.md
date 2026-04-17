@@ -91,16 +91,16 @@ All recommendations are designed to improve customer retention so the business i
 <img width="262" height="336" alt="Screen Shot 2026-04-13 at 16 20 53" src="https://github.com/user-attachments/assets/a56478e4-8435-4136-a180-f4cf3b39beac" />
 
 ## 8. Dashboard Preview
-Business Health
+**Business Health**
 <img width="1111" height="628" alt="Screenshot 2026-04-18 021300" src="https://github.com/user-attachments/assets/b3e1a71e-f771-4e2e-99a5-9d2578779e3e" />
 
-Customer Composition
+**Customer Composition**
 <img width="1110" height="626" alt="Screenshot 2026-04-18 021408" src="https://github.com/user-attachments/assets/17ed830e-24c1-443f-861e-3fb2f6cca5f3" />
 
-Indentify Factors That Influence Churn
+**Indentify Factors That Influence Churn**
 <img width="1108" height="625" alt="Screenshot 2026-04-18 021600" src="https://github.com/user-attachments/assets/4cb90e1e-f3fe-474e-a6f9-95fc5de28ea1" />
 
-Seller Performance
+**Seller Performance**
 <img width="1107" height="626" alt="Screenshot 2026-04-18 022425" src="https://github.com/user-attachments/assets/89427b66-20f9-4496-9593-7bc153411319" />
 
 ## 9. Limitations & Next Steps
