@@ -1,5 +1,6 @@
 # The 2% Problem  
 **Uncovering Business Performance and Customer Churn in Olist Brazilian Marketplace**
+**[Click here to view the full interactive Power BI Dashboard](https://drive.google.com/file/d/1SB-oBzipjdEYXOk-72AJ5QayjU2Xh6mI/view?usp=sharing)**
 
 ## 1. The Problem Statement
 
@@ -58,8 +59,8 @@ Customer composition: **65.8% churn customers**, **32.0% one-time customers**, a
 The business is highly dependent on acquiring new buyers, which increases the risk of rising Customer Acquisition Cost (CAC) in the future.
 
 **Finding 3**  
-Delivery performance and product category had only a minor impact on churn and were not the main drivers.  
-Churn customers experienced an average lead time of **13.84 days** (19% longer than repeat customers). While there is a difference, it is not significant enough to be the primary cause. The top 5 product categories purchased by churn and repeat customers were almost identical. This indicates churn was not driven by one-time purchase intent.
+Delivery performance and product category had only a moderate impact on churn and were not the main drivers.
+Churn customers experienced an average lead time of 13.84 days (19% longer than repeat customers) and a 54.5% higher late order rate. However, the top 5 product categories purchased by churn and repeat customers were almost identical, and review scores were also very similar. This indicates churn was not primarily driven by product type or one-time purchase intent.
 
 **Finding 4**  
 Even top-performing sellers struggled with delivery delays.  
@@ -88,7 +89,18 @@ All recommendations are designed to improve customer retention so the business i
 ## 7. Project Structure
 <img width="262" height="336" alt="Screen Shot 2026-04-13 at 16 20 53" src="https://github.com/user-attachments/assets/a56478e4-8435-4136-a180-f4cf3b39beac" />
 
-## 8. Limitations & Next Steps
+## 8. Dashboard Preview
+Business Health
+<img width="1111" height="628" alt="Screenshot 2026-04-18 021300" src="https://github.com/user-attachments/assets/b3e1a71e-f771-4e2e-99a5-9d2578779e3e" />
+Customer Composition
+<img width="1110" height="626" alt="Screenshot 2026-04-18 021408" src="https://github.com/user-attachments/assets/17ed830e-24c1-443f-861e-3fb2f6cca5f3" />
+Indentify Factors That Influence Churn
+<img width="1108" height="625" alt="Screenshot 2026-04-18 021600" src="https://github.com/user-attachments/assets/4cb90e1e-f3fe-474e-a6f9-95fc5de28ea1" />
+Seller Performance
+<img width="1107" height="626" alt="Screenshot 2026-04-18 022425" src="https://github.com/user-attachments/assets/89427b66-20f9-4496-9593-7bc153411319" />
+
+
+## 9. Limitations & Next Steps
 - The dataset only covers 2016–2018 and cannot capture more recent trends.  
 - No competitor data is available, so market share cannot be measured.  
 - External churn factors (pricing, competitors, other platforms) cannot be analyzed from this dataset.
