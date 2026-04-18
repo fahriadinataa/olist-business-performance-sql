@@ -39,14 +39,15 @@ LIMIT 10;
 
 -- Distribution of review scores among sellers 
 -- Segmentation of sellers based on average review scores and total orders
-DROP TEMPORARY TABLE IF EXISTS segment_performance;
+DROP TABLE IF EXISTS segment_performance;
 
-CREATE TEMPORARY TABLE segment_performance
+CREATE TABLE segment_performance AS
 SELECT 
 	o.seller_id,
     AVG(r.review_score) AS avg_review_score,
     COUNT(DISTINCT o.order_id) AS total_order,
     COUNT(DISTINCT o.customer_unique_id) AS total_customer,
+    SUM(total_payment) AS total_gmv,
     CASE
 		WHEN AVG(r.review_score) > 4.0 AND COUNT(DISTINCT o.order_id) > 500 THEN 'top seller'
         WHEN AVG(r.review_score) > 4.0 AND COUNT(DISTINCT o.order_id) < 500 
@@ -59,6 +60,13 @@ LEFT JOIN st_dim_review r ON o.order_id = r.order_id
 GROUP BY o.seller_id
 ORDER BY total_order DESC;
 --
+SELECT
+	segment,
+    COUNT(total_order) AS total_seller,
+    ROUND(SUM(total_gmv), 2) AS total_gmv
+FROM segment_performance
+GROUP BY segment;
+-- Return total sellers and total GMV by segment
 
 -- Late Order Rate by Seller Segment
 WITH seller_stats AS(
