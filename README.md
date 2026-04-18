@@ -78,10 +78,14 @@ After ruling out delivery performance, review scores, and product category as pr
 With an average repeat purchase occurring at 4.82 months, re-engagement campaigns should be triggered in the fourth month after the last purchase, before customers enter the churn zone. Waiting until the fifth month is already too late.
 
 **Priority Targeting by RFM Segment**  
-Cannot Lose Them (16.6%) : High-frequency customers with low recency. Offer exclusive vouchers or early access to new products to re-ignite their loyalty.
-Hibernating (24.6%) : The largest at-risk segment. Use urgency-driven campaigns such as limited-time offers and flash sales.
-Potential Loyalist (18.7%) : Customers with 1–2 purchases but still good recency. Focus on relevant cross-selling within the same product category rather than generic recommendations.
-New Customers (13%) : Provide post-purchase nurturing through follow-up emails, satisfaction surveys, and limited-time discounts to encourage a second purchase.
+- Cannot Lose Them (16.6%) : High-frequency customers with low recency.
+  Offer exclusive vouchers or early access to new products to re-ignite their loyalty.
+- Hibernating (24.6%) : The largest at-risk segment.
+  Use urgency-driven campaigns such as limited-time offers and flash sales.
+- Potential Loyalist (18.7%) : Customers with 1–2 purchases but still good recency.
+  Focus on relevant cross-selling within the same product category rather than generic recommendations.
+- New Customers (13%) : Customers who have just made a purchase
+  Provide post-purchase nurturing through follow-up emails, satisfaction surveys, and limited-time discounts to encourage a second purchase.
 
 **Loyalty Program Aligned with Payment Behavior**  
 Since 74.75% of customers use credit cards as their primary payment method, the most effective loyalty program for this group is cashback or reward points per transaction. This approach feels familiar to credit card users and has a higher chance of influencing repeat behavior.
