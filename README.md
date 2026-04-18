@@ -95,10 +95,10 @@ Since 74.75% of customers use credit cards as their primary payment method, the 
 A uniform Service Level Agreement (SLA) for delivery must be enforced across all seller segments without exception. High-volume Top Sellers with elevated late delivery rates pose a greater absolute risk than lower-volume Risky Sellers due to their large order contribution. Stricter SLA thresholds should be applied to sellers with more than 500 orders. 
 
 **Tiered Warning System for Risky Sellers**   
-Introduce a three-stage monitoring system:
-Yellow Flag - Late rate > 7% in the last 30 days: Send warning notification.
-Orange Flag - Late rate > 9% in the last 30 days: Temporarily lower seller ranking on the platform.
-Red Flag - Late rate > 12% in the last 60 days: Initiate contract review.
+Introduce a three-stage monitoring system:  
+- Yellow Flag : Late rate > 7% in the last 30 days: Send warning notification.
+- Orange Flag : Late rate > 9% in the last 30 days: Temporarily lower seller ranking on the platform.
+- Red Flag : Late rate > 12% in the last 60 days: Initiate contract review.
 
 **Seller Development Program for Underperformers**  
 The most critical finding is that underperforming sellers represent 95% of the total seller base and contribute the vast majority of GMV. Prioritize the following:
