@@ -1,7 +1,7 @@
 # The 2% Problem  
 **Uncovering Business Performance and Customer Churn in Olist Brazilian Marketplace**
 
-**[Click here to view the full interactive Power BI Dashboard](https://drive.google.com/file/d/1SB-oBzipjdEYXOk-72AJ5QayjU2Xh6mI/view?usp=sharing)**
+**[Click here to view the full interactive Power BI Dashboard](https://drive.google.com/file/d/1FyJgFf3Awvx4gQL-2DZ8jfTRZvM0Lnvw/view?usp=drive_link)**
 
 ## 1. The Problem Statement
 
