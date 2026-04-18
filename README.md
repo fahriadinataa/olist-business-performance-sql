@@ -18,7 +18,7 @@ Why?
 
 - **Source** : Kaggle - Olist Brazilian E-Commerce  
 - **Analysis Period** : September 2016 – August 2018 
-(Note : September and October 2018 data were excluded due to negligible volume and not representative for analysis.                      
+- **Note** : September and October 2018 data were excluded due to negligible volume and not representative for analysis.                      
 - **Scope** : Brazilian marketplace orders  
 - **Data Model** : Star Schema (1 Fact Table + 5 Dimension Tables)
 
@@ -75,42 +75,42 @@ After ruling out delivery performance, review scores, and product category as pr
 ## 6. Business Recommendations
 
 ### Retention & Customer Strategy
-**- Re-engagement Campaign Based on Customer Lifecycle**
+**Re-engagement Campaign Based on Customer Lifecycle**
 With an average repeat purchase occurring at 4.82 months, re-engagement campaigns should be triggered in the fourth month after the last purchase — before customers enter the churn zone. Waiting until the fifth month is already too late.
 
-**- Priority Targeting by RFM Segment**
+**Priority Targeting by RFM Segment**
 Cannot Lose Them (16.6%): High-frequency customers with low recency. Offer exclusive vouchers or early access to new products to re-ignite their loyalty.
 Hibernating (24.6%): The largest at-risk segment. Use urgency-driven campaigns such as limited-time offers and flash sales.
 Potential Loyalist (18.7%): Customers with 1–2 purchases but still good recency. Focus on relevant cross-selling within the same product category rather than generic recommendations.
 New Customers (13%): Provide post-purchase nurturing through follow-up emails, satisfaction surveys, and limited-time discounts to encourage a second purchase.
 
-**- Loyalty Program Aligned with Payment Behavior**
+**Loyalty Program Aligned with Payment Behavior**
 Since 74.75% of customers use credit cards as their primary payment method, the most effective loyalty program for this group is cashback or reward points per transaction. This approach feels familiar to credit card users and has a higher chance of influencing repeat behavior.
 
 ### Seller Management
-**- Implement Platform-Wide SLA Standards**
+**Implement Platform-Wide SLA Standards**
 A uniform Service Level Agreement (SLA) for delivery must be enforced across all seller segments without exception. High-volume Top Sellers with elevated late delivery rates pose a greater absolute risk than lower-volume Risky Sellers due to their large order contribution. Stricter SLA thresholds should be applied to sellers with more than 500 orders. 
 
-**- Tiered Warning System for Risky Sellers**
+**Tiered Warning System for Risky Sellers**
 Introduce a three-stage monitoring system:
 Yellow Flag — Late rate > 7% in the last 30 days: Send warning notification.
 Orange Flag — Late rate > 9% in the last 30 days: Temporarily lower seller ranking on the platform.
 Red Flag — Late rate > 12% in the last 60 days: Initiate contract review.
 
-**- Seller Development Program for Underperformers**
+**Seller Development Program for Underperformers**
 The most critical finding is that underperforming sellers represent 95% of the total seller base and contribute the vast majority of GMV. Prioritize the following:
 Identify the top 50–100 underperforming sellers with the highest order volume and review scores close to 4.0 — these are the strongest candidates to become “Potential Sellers.”
 Provide targeted onboarding, fulfillment training, and performance coaching for this group, as improving them will have significantly higher impact on overall GMV than focusing solely on the 19 existing Top Sellers.
 
 ### Operational and Delivery
-**- Eliminate Severe Late Deliveries (10+ days)**
+**Eliminate Severe Late Deliveries (10+ days)**
 Severe late deliveries (10+ days) are 27 times higher among churn customers (1,775 cases) compared to repeat customers (64 cases). Focus investigation and intervention efforts specifically on these high-impact cases rather than minor delays.
 Action Steps:
 Analyze patterns to determine whether severe delays are concentrated by specific sellers, states, or product categories.
 If concentrated in certain states, increase local seller supply in those regions.
 If concentrated among specific sellers, escalate them into the warning system above.- Strengthen seller supply in states with the highest number of customers to reduce lead time.
 
-**- Strategic Seller Expansion Beyond São Paulo (SP)**
+**Strategic Seller Expansion Beyond São Paulo (SP)**
 While SP dominates with over 40,000 customers, other key states (RJ, MG, RS, and PR) also have significant customer bases. Orders shipped across states are likely contributing to longer lead times. Recruiting and onboarding local sellers in these four states will directly reduce delivery distance and improve overall lead time performance.
 
 All recommendations are designed to improve customer retention so the business is less dependent on constantly acquiring new buyers.
