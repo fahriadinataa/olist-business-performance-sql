@@ -175,5 +175,27 @@ WHERE rank_total_order <= 5
 	AND segment IN ('churn customer' AND 'repeat customer');
 --
 
+-- Review Score by Retention Segment
+WITH review_customer_base AS(
+SELECT 
+	o.order_id,
+    o.customer_unique_id,
+    s.segment,
+    ROUND(AVG(r.review_score), 2) AS score_review
+FROM new_fact_order o
+LEFT JOIN retention_segment s ON o.customer_unique_id = s.customer_unique_id
+LEFT JOIN st_dim_review r ON o.order_id = r.order_id
+GROUP BY o.order_id, o.customer_unique_id, s.segment
+LIMIT 150000
+)
+
+SELECT 
+	segment,
+    ROUND(AVG(score_review), 2) AS score_review
+FROM review_customer_base
+GROUP BY segment;
+--
+
+
 
 
