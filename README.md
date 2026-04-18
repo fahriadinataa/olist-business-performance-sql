@@ -103,11 +103,11 @@ Provide targeted onboarding, fulfillment training, and performance coaching for 
 
 ### Operational and Delivery
 **Eliminate Severe Late Deliveries (10+ days)**  
-Severe late deliveries (10+ days) are 27 times higher among churn customers (1,775 cases) compared to repeat customers (64 cases). Focus investigation and intervention efforts specifically on these high-impact cases rather than minor delays.
+Severe late deliveries (10+ days) are 27 times higher among churn customers (1,775 cases) compared to repeat customers (64 cases). Focus investigation and intervention efforts specifically on these high-impact cases rather than minor delays.  
 Action Steps:
-Analyze patterns to determine whether severe delays are concentrated by specific sellers, states, or product categories.
-If concentrated in certain states, increase local seller supply in those regions.
-If concentrated among specific sellers, escalate them into the warning system above.- Strengthen seller supply in states with the highest number of customers to reduce lead time.
+- Analyze patterns to determine whether severe delays are concentrated by specific sellers, states, or product categories.
+- If concentrated in certain states, increase local seller supply in those regions.
+- If concentrated among specific sellers, escalate them into the warning system above.- Strengthen seller supply in states with the highest number of customers to reduce lead time.
 
 **Strategic Seller Expansion Beyond São Paulo (SP)**  
 While SP dominates with over 40,000 customers, other key states (RJ, MG, RS, and PR) also have significant customer bases. Orders shipped across states are likely contributing to longer lead times. Recruiting and onboarding local sellers in these four states will directly reduce delivery distance and improve overall lead time performance.
