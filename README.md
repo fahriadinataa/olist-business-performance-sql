@@ -17,7 +17,8 @@ Why?
 ## 2. Dataset Overview
 
 - **Source** : Kaggle - Olist Brazilian E-Commerce  
-- **Analysis Period** : September 2016 – August 2018 (Note : September and October 2018 data were excluded due to negligible volume and not representative for analysis.                      
+- **Analysis Period** : September 2016 – August 2018 
+(Note : September and October 2018 data were excluded due to negligible volume and not representative for analysis.                      
 - **Scope** : Brazilian marketplace orders  
 - **Data Model** : Star Schema (1 Fact Table + 5 Dimension Tables)
 
